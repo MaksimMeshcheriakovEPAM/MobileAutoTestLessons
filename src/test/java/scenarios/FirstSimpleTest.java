@@ -9,7 +9,8 @@ public class FirstSimpleTest extends DriverSetup{
 
     @BeforeClass(description = "Prepare driver to run test(s)")
     public void setUp() throws Exception {
-        prepareAndroidNative();
+        //prepareAndroidNative();
+        prepareAndroidWeb();
 
     }
 
@@ -19,6 +20,13 @@ public class FirstSimpleTest extends DriverSetup{
         By add_btn = By.id(app_package_name + "addContactButton");
         driver.findElement(add_btn).click();
         System.out.println("Simplest Appium test done");
+    }
+
+    @Test(description = "Open website")
+    public void webTest() throws InterruptedException {
+        driver.get("http://iana.org");
+        Thread.sleep(5000);
+        System.out.println("Site opening done");
     }
 
 
