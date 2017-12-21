@@ -5,16 +5,21 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class FirstSimpleTest extends DriverSetup{
+import setup.Driver;
+
+public class FirstSimpleTest extends Driver {
 
     @BeforeClass(description = "Prepare driver to run test(s)")
     public void setUp() throws Exception {
         //prepareAndroidNative();
-        prepareAndroidWeb();
+        //prepareAndroidWeb();
+        prepareDriver("Android",
+                "C:\\Users\\Maksim_Meshcheriakov\\IdeaProjects\\MobileAutoTestLessons\\src\\main\\resources",
+                /*"ContactManager.apk"*/ null);
 
     }
 
-    @Test(description = "This simple test just click on button 'Add contact'")
+    //@Test(description = "This simple test just click on button 'Add contact'")
     public void simplestTest(){
         String app_package_name = "com.example.android.contactmanager:id/";
         By add_btn = By.id(app_package_name + "addContactButton");
