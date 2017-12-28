@@ -25,7 +25,8 @@ public class Driver extends TestProperties{
 
     protected Driver() throws IOException {
         AUT = getProp("aut");
-        SUT = "http://"+getProp("sut");
+        String t_sut = getProp("sut");
+        SUT = t_sut == null ? null : "http://"+t_sut;
         TEST_PLATFORM = getProp("platform");
         DRIVER = getProp("driver");
     }
@@ -38,6 +39,7 @@ public class Driver extends TestProperties{
         capabilities = new DesiredCapabilities();
         String browserName;
 
+        // Setup test platform: Android or iOS. Browser also depends on a platform.
         switch(TEST_PLATFORM){
             case "Android":
                 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"emulator-5554"); // default Android emulator
@@ -49,21 +51,26 @@ public class Driver extends TestProperties{
             default: throw new Exception("Unknown mobile platform");
         }
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, TEST_PLATFORM);
-        if(AUT != null){
-            File app = new File(AUT);
 
-            //tell Appium where the location of the app is
+        // Setup type of application: mobile, web (or hybrid)
+        if(AUT != null && SUT == null){
+            // Native
+            File app = new File(AUT);
             capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
-        } else {
+        } else if(SUT != null && AUT == null){
+            // Web
             capabilities.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
+        }else{
+            throw new Exception("Unclear type of mobile app");
         }
 
-        // Init driver for local Appium server with capabilities have been set
+       // Init driver for local Appium server with capabilities have been set
         driver = new AppiumDriver(new URL(DRIVER), capabilities);
 
         // Set an object to handle timeouts
         wait = new WebDriverWait(driver, 10);
 
     }
+
 
 }
