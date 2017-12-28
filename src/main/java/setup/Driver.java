@@ -3,6 +3,7 @@ package setup;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.net.URL;
 public class Driver extends TestProperties{
     protected AppiumDriver driver;
     protected DesiredCapabilities capabilities;
+    protected WebDriverWait wait;
 
     // Properties to be read
     protected String AUT; // (mobile) app under testing
@@ -32,7 +34,7 @@ public class Driver extends TestProperties{
      * Initialize driver with appropriate capabilities depending on platform and application
      * @throws Exception
      */
-    protected void prepareDriver(/*, String absAppPath, String appName*/) throws Exception {
+    protected void prepareDriver() throws Exception {
         capabilities = new DesiredCapabilities();
         String browserName;
 
@@ -58,6 +60,9 @@ public class Driver extends TestProperties{
 
         // Init driver for local Appium server with capabilities have been set
         driver = new AppiumDriver(new URL(DRIVER), capabilities);
+
+        // Set an object to handle timeouts
+        wait = new WebDriverWait(driver, 10);
 
     }
 
