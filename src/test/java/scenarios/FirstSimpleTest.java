@@ -7,22 +7,26 @@ import org.testng.annotations.Test;
 
 import setup.Driver;
 
+import java.io.IOException;
+
+
 public class FirstSimpleTest extends Driver {
+
+    FirstSimpleTest() throws IOException {
+        super();
+    }
 
     @BeforeClass(description = "Prepare driver to run test(s)")
     public void setUp() throws Exception {
         //prepareAndroidNative();
         //prepareAndroidWeb();
-        prepareDriver("Android",
-                "C:\\Users\\Maksim_Meshcheriakov\\IdeaProjects\\MobileAutoTestLessons\\src\\main\\resources",
-                // ABSOLUTE path! #facepalm
-                "ContactManager.apk"/* null*/);
+        prepareDriver();
 
     }
 
     @Test(description = "Open website")
     public void webTest() throws InterruptedException {
-        driver.get("http://iana.org"); // this always ends OK; it's a drawback.
+        driver.get(SUT); // this always ends OK; it's a drawback.
         // Other way to check good/bad result has to be implemented.
         Thread.sleep(5000); // This is a reason to dismissal.
         System.out.println("Site opening done");

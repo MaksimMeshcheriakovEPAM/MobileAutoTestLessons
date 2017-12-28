@@ -5,25 +5,38 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
-import java.net.MalformedURLException;
+import java.io.IOException;
 import java.net.URL;
 
-public class Driver {
+/**
+ * Initialize a driver with test properties
+ */
+public class Driver extends TestProperties{
     protected AppiumDriver driver;
     protected DesiredCapabilities capabilities;
 
+    // Properties to be read
+    protected String AUT; // (mobile) app under testing
+    protected String SUT; // site under testing
+    protected String TEST_PLATFORM;
+    protected String DRIVER;
+
+    protected Driver() throws IOException {
+        AUT = getProp("aut");
+        SUT = "http://"+getProp("sut");
+        TEST_PLATFORM = getProp("platform");
+        DRIVER = getProp("driver");
+    }
+
     /**
      * Initialize driver with appropriate capabilities depending on platform and application
-     * @param platform
-     * @param absAppPath
-     * @param appName
-     * @throws MalformedURLException
+     * @throws Exception
      */
-    protected void prepareDriver(String platform, String absAppPath, String appName) throws Exception {
+    protected void prepareDriver(/*, String absAppPath, String appName*/) throws Exception {
         capabilities = new DesiredCapabilities();
         String browserName;
 
-        switch(platform){
+        switch(TEST_PLATFORM){
             case "Android":
                 capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"emulator-5554"); // default Android emulator
                 browserName = "Chrome";
@@ -33,10 +46,10 @@ public class Driver {
                 break;
             default: throw new Exception("Unknown mobile platform");
         }
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, platform);
-        if(appName != null){
-            File appDir = new File(absAppPath);
-            File app = new File(appDir, appName);
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, TEST_PLATFORM);
+        if(AUT != null){
+            File app = new File(AUT);
+
             //tell Appium where the location of the app is
             capabilities.setCapability(MobileCapabilityType.APP, app.getAbsolutePath());
         } else {
@@ -44,7 +57,7 @@ public class Driver {
         }
 
         // Init driver for local Appium server with capabilities have been set
-        driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver = new AppiumDriver(new URL(DRIVER), capabilities);
 
     }
 
