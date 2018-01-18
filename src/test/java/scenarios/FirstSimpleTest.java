@@ -24,11 +24,11 @@ public class FirstSimpleTest extends Driver {
     }
 
     @Test(description = "Open website")
-    public void webTest() throws InterruptedException {
-        driver.get(SUT); // this always ends OK; it's a drawback.
+    public void webTest() throws Exception {
+        driver().get(SUT); // this always ends OK; it's a drawback.
         // Other way to check good/bad result has to be implemented.
         //Thread.sleep(5000); // This is a reason to dismissal.
-        wait.
+        driverWait().
              until(
                 ExpectedConditions.
                         urlToBe(SUT+"/")); // temporary solution; it would be better to use regexp
@@ -39,16 +39,16 @@ public class FirstSimpleTest extends Driver {
     }
 
     //@Test(description = "This simple test just click on button 'Add contact'")
-    public void simplestTest(){
+    public void simplestTest()throws Exception {
         String app_package_name = "com.example.android.contactmanager:id/";
         By add_btn = By.id(app_package_name + "addContactButton");
-        driver.findElement(add_btn).click(); // The result of clicking doesn't checked.
+        driver().findElement(add_btn).click(); // The result of clicking doesn't checked.
         System.out.println("Simplest Appium test done");
     }
 
 
     @AfterClass(description = "Close driver on all tests completion")
     public void tearDown() throws Exception {
-        driver.quit();
+        driver().quit();
     }
 }

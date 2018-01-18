@@ -13,9 +13,10 @@ import java.net.URL;
  * Initialize a driver with test properties
  */
 public class Driver extends TestProperties{
-    protected AppiumDriver driver;
+    //protected AppiumDriver driver;
+    private static AppiumDriver driverSingle = null;
     protected DesiredCapabilities capabilities;
-    protected WebDriverWait wait;
+    private static WebDriverWait waitSingle;
 
     // Properties to be read
     protected String AUT; // (mobile) app under testing
@@ -23,6 +24,10 @@ public class Driver extends TestProperties{
     protected String TEST_PLATFORM;
     protected String DRIVER;
 
+    /**
+     * Constructor initializes properties on driver creation
+     * @throws IOException
+     */
     protected Driver() throws IOException {
         AUT = getProp("aut");
         String t_sut = getProp("sut");
@@ -32,7 +37,7 @@ public class Driver extends TestProperties{
     }
 
     /**
-     * Initialize driver with appropriate capabilities depending on platform and application
+     * Set appropriate capabilities to Appium driver depending on platform and application
      * @throws Exception
      */
     protected void prepareDriver() throws Exception {
@@ -65,11 +70,21 @@ public class Driver extends TestProperties{
         }
 
        // Init driver for local Appium server with capabilities have been set
-        driver = new AppiumDriver(new URL(DRIVER), capabilities);
+        if(driverSingle == null) driverSingle = new AppiumDriver(new URL(DRIVER), capabilities);
 
         // Set an object to handle timeouts
-        wait = new WebDriverWait(driver, 10);
+        if(waitSingle == null) waitSingle = new WebDriverWait(driver(), 10);
 
+    }
+
+    protected AppiumDriver driver() throws Exception {
+        if(driverSingle == null) prepareDriver();
+        return driverSingle;
+    }
+
+    protected WebDriverWait driverWait() throws Exception {
+        //if(waitSingle == null) waitSingle = new WebDriverWait(driver(), 10);;
+        return waitSingle;
     }
 
 
