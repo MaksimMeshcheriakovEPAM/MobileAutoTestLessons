@@ -2,28 +2,31 @@ package scenarios;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 import setup.Driver;
-
-import java.io.IOException;
+import setup.PropertyFile;
 
 /**
  * Code to be run before and after test suites.
  * Particularly to setup and teardown an Appium driver.
  */
-@Test(groups = {"native","web"})
 public class Hooks extends Driver {
 
-    Hooks() throws IOException {
-        super();
-
+    @BeforeSuite(groups = {"web"})
+    void setWeb() throws Exception {
+        setPropertyFile(PropertyFile.WEB);
+        prepareDriver();
     }
 
-    @BeforeSuite(description = "Prepare driver to run test(s)")
-    public void setUp() throws Exception {
+    @BeforeSuite(groups = {"native"})
+    void setNative() throws Exception {
+        setPropertyFile(PropertyFile.NATIVE);
         prepareDriver();
-        System.out.println("Driver prepared");
+    }
 
+    @BeforeSuite(groups = {"hybrid"})
+    void setHybrid() throws Exception {
+        setPropertyFile(PropertyFile.HYBRID);
+        prepareDriver();
     }
 
     @AfterSuite(description = "Close driver on all tests completion")

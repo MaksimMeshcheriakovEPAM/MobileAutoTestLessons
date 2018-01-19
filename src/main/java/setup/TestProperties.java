@@ -8,7 +8,12 @@ import java.util.Properties;
  * Properties using
  */
 class TestProperties {
+    String currentPropertyFile;
     Properties currentProps = new Properties();
+
+    protected void setPropertyFile(PropertyFile propertyFile){
+        currentPropertyFile = propertyFile.getName();
+    }
 
     /**
      * Read set of properties
@@ -16,7 +21,7 @@ class TestProperties {
      * @throws IOException
      */
     Properties getCurrentProps() throws IOException {
-        FileInputStream in = new FileInputStream("webtests.properties");
+        FileInputStream in = new FileInputStream(currentPropertyFile);
         currentProps.load(in);
         in.close();
         return currentProps;

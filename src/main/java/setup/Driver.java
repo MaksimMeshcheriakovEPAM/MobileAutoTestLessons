@@ -6,35 +6,23 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 /**
  * Initialize a driver with test properties
  */
 public class Driver extends TestProperties{
-    //protected AppiumDriver driver;
+
     private static AppiumDriver driverSingle = null;
-    protected DesiredCapabilities capabilities;
     private static WebDriverWait waitSingle;
+    protected DesiredCapabilities capabilities;
 
     // Properties to be read
-    protected String AUT; // (mobile) app under testing
-    protected String SUT; // site under testing
-    protected String TEST_PLATFORM;
-    protected String DRIVER;
+    protected static String AUT; // (mobile) app under testing
+    protected static String SUT; // site under testing
+    protected static String TEST_PLATFORM;
+    protected static String DRIVER;
 
-    /**
-     * Constructor initializes properties on driver creation
-     * @throws IOException
-     */
-    protected Driver() throws IOException {
-        AUT = getProp("aut");
-        String t_sut = getProp("sut");
-        SUT = t_sut == null ? null : "http://"+t_sut;
-        TEST_PLATFORM = getProp("platform");
-        DRIVER = getProp("driver");
-    }
 
     /**
      * Set appropriate capabilities to Appium driver depending on platform and application
@@ -43,6 +31,15 @@ public class Driver extends TestProperties{
     protected void prepareDriver() throws Exception {
         capabilities = new DesiredCapabilities();
         String browserName;
+
+        System.out.println("Properties: "+currentPropertyFile);
+
+        // Assign property values to variables
+        AUT = getProp("aut");
+        String t_sut = getProp("sut");
+        SUT = t_sut == null ? null : "http://"+t_sut;
+        TEST_PLATFORM = getProp("platform");
+        DRIVER = getProp("driver");
 
         // Setup test platform: Android or iOS. Browser also depends on a platform.
         switch(TEST_PLATFORM){
@@ -83,7 +80,7 @@ public class Driver extends TestProperties{
     }
 
     protected WebDriverWait driverWait() throws Exception {
-        //if(waitSingle == null) waitSingle = new WebDriverWait(driver(), 10);;
+        //if(waitSingle == null) waitSingle = new WebDriverWait(driver(), 10);
         return waitSingle;
     }
 
