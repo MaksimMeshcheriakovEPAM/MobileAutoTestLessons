@@ -13,11 +13,20 @@ public class SimpleNativeTests extends Driver {
         super();
     }
 
-    @Test(description = "This simple test just click on button 'Add contact'")
+    @Test(description = "Click on the button 'Add contact' and make sure all contact fields appear")
     public void simplestTest() throws Exception {
         String app_package_name = "com.example.android.contactmanager:id/";
         By add_btn = By.id(app_package_name + "addContactButton");
-        driver().findElement(add_btn).click(); // The result of clicking doesn't checked.
+        driver().findElement(add_btn).click();
+
+        // Check Target Account, Contact Name, Contact phone appears
+        assert driver().findElement(By.id(app_package_name + "accountSpinner")).isDisplayed();
+        assert driver().findElement(By.xpath("//android.widget.TextView[@content-desc=\"Target Account\"]")).getAttribute("text").contains("Target Account") : "Improper title of Target Account";
+
+        // Check virtual keyboard appears
+
+        // Check pop-up "Tap to Google Search and more" appears: ??????????
+
         System.out.println("Simplest Appium test done");
     }
 }
