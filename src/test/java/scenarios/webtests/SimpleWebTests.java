@@ -16,10 +16,12 @@ public class SimpleWebTests extends Driver {
         driverWait().
                 until(
                         ExpectedConditions.
-                                urlToBe(SUT+"/")); // temporary solution; it would be better to use regexp
-        // Title of loaded page can be verified as well.
-        // The next step is to check http status code.
-        // Selenium/Appium can't do it directly so use other means (RestAssure, Apache http client, etc)
+                                urlToBe(SUT + "/")); // temporary solution; it would be better to use regexp
+        /*
+        TODO: Title of loaded page can be verified as well.
+        The next step is to check http status code.
+        Selenium/Appium can't do it directly so use other means (RestAssure, Apache http client, etc)
+        */
         System.out.println("Site opening done");
     }
 

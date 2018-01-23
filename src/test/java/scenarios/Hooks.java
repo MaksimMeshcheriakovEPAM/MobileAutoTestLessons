@@ -11,6 +11,9 @@ import setup.PropertyFile;
  */
 public class Hooks extends Driver {
 
+    // TODO: improve initialization scheme
+    // TODO: improve using of settings
+
     @BeforeSuite(groups = {"web"})
     void setWeb() throws Exception {
         setPropertyFile(PropertyFile.WEB);

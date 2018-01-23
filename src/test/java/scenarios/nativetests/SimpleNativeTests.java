@@ -23,9 +23,9 @@ public class SimpleNativeTests extends Driver {
         assert driver().findElement(By.id(app_package_name + "accountSpinner")).isDisplayed() : "Target Account selection is not displayed";
         assert driver().findElement(By.xpath("//android.widget.TextView[@content-desc=\"Target Account\"]")).getAttribute("text").contains("Target Account") : "Improper title of Target Account";
 
-        // Check virtual keyboard appears
+        // TODO: Check virtual keyboard appears
 
-        // Check pop-up "Tap to Google Search and more" appears: ??????????
+        // TODO: heck pop-up "Tap to Google Search and more" appears: ??????????
 
         System.out.println("Simplest Appium test done");
     }
