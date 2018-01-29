@@ -37,7 +37,9 @@ public class Driver extends TestProperties {
         System.out.println("Properties: " + currentPropertyFile);
 
         // Assign property values to variables
-        AUT = getProp("aut");
+        String resourcePath = "./src/main/resources/";
+        AUT = resourcePath + getProp("aut");
+        System.out.println(AUT);
         String t_sut = getProp("sut");
         SUT = t_sut == null ? null : "http://" + t_sut;
         TEST_PLATFORM = getProp("platform");
